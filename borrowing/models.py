@@ -29,6 +29,12 @@ class Company(models.Model):
         default=RETAIL
         )
 
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "companies"
+
 
 class User(models.Model):
     """
@@ -42,6 +48,8 @@ class User(models.Model):
     telephone_number = models.CharField(max_length=15)
     company = models.ForeignKey(Company)
 
+    def __str__(self):
+        return "{0}, {1}".format(self.surname, self.forename)
 
 class LoanRequest(models.Model):
     """
@@ -54,5 +62,7 @@ class LoanRequest(models.Model):
     loan_length_days = models.PositiveSmallIntegerField()
     reason = models.TextField()
 
+    def __str__(self):
+        return "borrowing: {0}".format(self.amount)
 
 
