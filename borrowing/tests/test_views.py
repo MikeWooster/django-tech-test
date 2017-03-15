@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
 
-# class TestAdmin(TestCase):
+# class AdminViewTest(TestCase):
 #     def test_is_enabled(self):
 #         client = Client()
 #         response = client.post("/admin/", follow=True)
@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 #                          "Bad status code - Admin page has not been enabled")
 
 
-class TestBorrowingView(TestCase):
+class BorrowingViewTest(TestCase):
     def setUp(self):
         self.client = Client()
 
