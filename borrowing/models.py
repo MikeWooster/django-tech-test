@@ -1,21 +1,9 @@
 from django.db import models
 
 
-class User(models.Model):
-    """
-    Definition of the user table
-    """
-    forename = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
-    email = models.EmailField()
-    telephone_number = models.CharField(max_length=15)
-
-
 class Company(models.Model):
     """
     Definition of the company table
-
-    A relationship has been set up to relate this loan to a single user
     """
     # Define the choices for the business sector
     RETAIL = "RE"
@@ -28,7 +16,6 @@ class Company(models.Model):
         (FOOD_AND_DRINK, "Food & Drink"),
         (ENTERTAINMENT, "Entertainment"),
         )
-    user = models.ForeignKey(User)
     name = models.CharField(max_length=64)
     address = models.TextField()
     postcode = models.CharField(max_length=8)
@@ -41,6 +28,20 @@ class Company(models.Model):
         choices=BUSINESS_SECTOR_CHOICES,
         default=RETAIL
         )
+
+
+class User(models.Model):
+    """
+    Definition of the user table
+
+    A relationship has been set up to relate this User to a single Customer
+    """
+    forename = models.CharField(max_length=64)
+    surname = models.CharField(max_length=64)
+    email = models.EmailField()
+    telephone_number = models.CharField(max_length=15)
+    company = models.ForeignKey(Company)
+
 
 class LoanRequest(models.Model):
     """
