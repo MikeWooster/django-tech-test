@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.contrib.auth.models import User as UserAuth
+
 from ..models import Company
 from ..forms import UserForm, CompanyForm, LoanRequestForm, PasswordForm
 
@@ -10,6 +12,9 @@ class UserFormTest(TestCase):
         self.surname = "Wooster"
         self.email = "Mike.Wooster@example.com"
         self.tel_no = "+441732777666"
+        self.userauth = UserAuth.objects.create(
+            username=self.email, password="secret"
+            )
         # Initialise a company object
         self.company = Company.objects.create(
             name="White Glass",
@@ -38,6 +43,7 @@ class UserFormTest(TestCase):
             "telephone_number": self.tel_no,
         })
         form.company = self.company
+        form.userauth = self.userauth
         user = form.save()
         self.assertEqual(user.forename, self.forename)
         self.assertEqual(user.surname, self.surname)

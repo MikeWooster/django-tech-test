@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User as UserAuth
 
 from .models import User, Company, LoanRequest
 
@@ -11,6 +12,7 @@ class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         """Override init to enable setting company to default None"""
         self.company = None
+        self.userauth = None
         super().__init__(*args, **kwargs)
 
     def clean_telephone_number(self):
@@ -26,6 +28,8 @@ class UserForm(forms.ModelForm):
         user = super().save(commit=False)
         if isinstance(self.company, Company):
             user.company = self.company
+        if isinstance(self.userauth, UserAuth):
+            user.userauth = self.userauth
         user.save()
         return user
 
