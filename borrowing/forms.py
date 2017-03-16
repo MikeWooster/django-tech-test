@@ -46,9 +46,6 @@ class CompanyForm(forms.ModelForm):
                                         "exactly 8 characters")
         return data
 
-
-
-
 class LoanRequestForm(forms.ModelForm):
     class Meta:
         model = LoanRequest
@@ -66,3 +63,7 @@ class LoanRequestForm(forms.ModelForm):
             loanrequest.company = self.company
         loanrequest.save()
         return loanrequest
+
+
+class PasswordForm(forms.Form):
+    password = forms.CharField(widget=forms.PasswordInput)

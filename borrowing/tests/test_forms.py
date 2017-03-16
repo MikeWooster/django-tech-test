@@ -1,6 +1,6 @@
 from django.test import TestCase
 from ..models import Company
-from ..forms import UserForm, CompanyForm, LoanRequestForm
+from ..forms import UserForm, CompanyForm, LoanRequestForm, PasswordForm
 
 
 class UserFormTest(TestCase):
@@ -249,3 +249,13 @@ class LoanRequestFormTest(TestCase):
             "Form should not validate if the loan amount is > 100,000"
         )
 
+class PasswordFormTest(TestCase):
+    def test_valid(self):
+        form = PasswordForm({
+            "password": "password1"
+        })
+        self.assertTrue(form.is_valid())
+
+    def test_fails_on_empty(self):
+        form = PasswordForm()
+        self.assertFalse(form.is_valid())
