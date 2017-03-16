@@ -1,5 +1,8 @@
 from django.db import models
-
+from django.core.validators import (MinValueValidator,
+                                    MaxValueValidator,
+                                    MinLengthValidator
+                                    )
 
 class Company(models.Model):
     """
@@ -22,7 +25,10 @@ class Company(models.Model):
     # The company registration number (CRN) is a unique combination of
     # numbers and in some case letters.  A CharField is a better choice
     # here over an IntegerField
-    registered_company_number = models.CharField(max_length=8)
+    registered_company_number = models.CharField(
+        max_length=8,
+        validators=[MinLengthValidator(8)]
+        )
     business_sector = models.CharField(
         max_length=2,
         choices=BUSINESS_SECTOR_CHOICES,
@@ -58,7 +64,11 @@ class LoanRequest(models.Model):
     A relationship has been set up to relate this loan to a single Company.
     """
     company = models.ForeignKey(Company)
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
+    amount = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(10000.0), MaxValueValidator(100000.0)]
+        )
     loan_length_days = models.PositiveSmallIntegerField()
     reason = models.TextField()
 

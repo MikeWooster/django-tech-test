@@ -16,11 +16,23 @@ class UserForm(forms.ModelForm):
                                         "characters long")
         return data
 
+
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ["name", "address", "postcode", "registered_company_number",
                   "business_sector"]
+
+    def clean_registered_company_number(self):
+        """
+        method to validate that the length of the registered company number
+        is 8 characters exactly
+        """
+        data = self.cleaned_data["registered_company_number"]
+        if len(data) != 8:
+            raise forms.ValidationError("registered company number must be "
+                                        "exactly 8 characters")
+        return data
 
 
 class LoanRequestForm(forms.ModelForm):
