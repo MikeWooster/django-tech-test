@@ -8,6 +8,11 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ["forename", "surname", "email", "telephone_number"]
 
+    def __init__(self, *args, **kwargs):
+        """Override init to enable setting company to default None"""
+        self.company = None
+        super().__init__(*args, **kwargs)
+
     def clean_telephone_number(self):
         """method to validate the minimum length of the telephone number"""
         data = self.cleaned_data["telephone_number"]
@@ -16,6 +21,13 @@ class UserForm(forms.ModelForm):
                                         "characters long")
         return data
 
+    def save(self):
+        """Override save to set company foreign key"""
+        user = super().save(commit=False)
+        if isinstance(self.company, Company):
+            user.company = self.company
+        user.save()
+        return user
 
 class CompanyForm(forms.ModelForm):
     class Meta:
@@ -35,7 +47,22 @@ class CompanyForm(forms.ModelForm):
         return data
 
 
+
+
 class LoanRequestForm(forms.ModelForm):
     class Meta:
         model = LoanRequest
         fields = ["amount", "loan_length_days", "reason"]
+
+    def __init__(self, *args, **kwargs):
+        """Override init to enable setting company to default None"""
+        self.company = None
+        super().__init__(*args, **kwargs)
+
+    def save(self):
+        """Override save to set company foreign key"""
+        loanrequest = super().save(commit=False)
+        if isinstance(self.company, Company):
+            loanrequest.company = self.company
+        loanrequest.save()
+        return loanrequest

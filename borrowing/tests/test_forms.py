@@ -10,6 +10,14 @@ class UserFormTest(TestCase):
         self.surname = "Wooster"
         self.email = "Mike.Wooster@example.com"
         self.tel_no = "+441732777666"
+        # Initialise a company object
+        self.company = Company.objects.create(
+            name="White Glass",
+            address="213 Fake Street, Newhaven",
+            postcode="UN48 8DF",
+            registered_company_number="12345678",
+            business_sector=Company.RETAIL
+            )
 
     def test_valid(self):
         """Test if a submission of correct data works"""
@@ -20,6 +28,22 @@ class UserFormTest(TestCase):
             "telephone_number": self.tel_no,
             })
         self.assertTrue(form.is_valid(), "Form submission unsuccessful")
+
+    def test_commit(self):
+        """Tests successful save to db"""
+        form = UserForm({
+            "forename": self.forename,
+            "surname": self.surname,
+            "email": self.email,
+            "telephone_number": self.tel_no,
+        })
+        form.company = self.company
+        user = form.save()
+        self.assertEqual(user.forename, self.forename)
+        self.assertEqual(user.surname, self.surname)
+        self.assertEqual(user.email, self.email)
+        self.assertEqual(user.telephone_number, self.tel_no)
+        self.assertEqual(user.company, self.company)
 
     def test_missing_fields(self):
         form = UserForm({})
@@ -83,6 +107,14 @@ class CompanyFormTest(TestCase):
             "business_sector": self.business_sector
             })
         self.assertTrue(form.is_valid(), "CompanyForm submission failed")
+        company = form.save()
+        self.assertEqual(company.name, self.name)
+        self.assertEqual(company.address, self.address)
+        self.assertEqual(company.postcode, self.postcode)
+        self.assertEqual(
+            company.registered_company_number, self.registered_company_number
+            )
+        self.assertEqual(company.business_sector, self.business_sector)
 
     def test_missing_fields(self):
         form = CompanyForm({})
@@ -149,6 +181,14 @@ class LoanRequestFormTest(TestCase):
         self.amount = 50000
         self.loan_length_days = 40
         self.reason = "Who wouldn't just want some money"
+        # Initialise a company object
+        self.company = Company.objects.create(
+            name="White Glass",
+            address="213 Fake Street, Newhaven",
+            postcode="UN48 8DF",
+            registered_company_number="12345678",
+            business_sector=Company.RETAIL
+            )
 
     def test_valid(self):
         form = LoanRequestForm({
@@ -157,6 +197,20 @@ class LoanRequestFormTest(TestCase):
             "reason": self.reason
             })
         self.assertTrue(form.is_valid(), "LoanRequestForm submission failed")
+
+    def test_commit(self):
+        """Tests successful save to db"""
+        form = LoanRequestForm({
+            "amount": self.amount,
+            "loan_length_days": self.loan_length_days,
+            "reason": self.reason
+        })
+        form.company = self.company
+        loanrequest = form.save()
+        self.assertEqual(loanrequest.amount, self.amount)
+        self.assertEqual(loanrequest.loan_length_days, self.loan_length_days)
+        self.assertEqual(loanrequest.reason, self.reason)
+        self.assertEqual(loanrequest.company, self.company)
 
     def test_missing_fields(self):
         form = LoanRequestForm({})
