@@ -4,9 +4,12 @@
 <body>
     <form action="" method="post">
         {% csrf_token %}
+        <h1>About you</h1>
         {{ userform.as_p }}
         {{ passwordform.as_p }}
+        <h1>About your company</h1>
         {{ companyform.as_p }}
+        <h1>Tell us what you need</h1>
         {{ loanrequestform.as_p }}
         <input type="submit" value="submit" />
     </form>
