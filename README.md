@@ -2,20 +2,25 @@
 
 Growth Street is building a platform to allow growing businesses to borrow money at affordable rates. Our ability to make the entire process efficient on our web platform will be critical in offering the lowest rates to our customers. 
 
-#### The Task
+#### Usage
 
-Build a Django app for borrowers to register and request a loan. You will need to collect the following information:
+The web page can be accessed at either the main index or at /borrowing/.  The form will take the following information:
 
 * The borrower's name, email, and telephone number.
 * The borrower's business' name, address, registered company number (8 digit number), and business sector (pick from Retail, Professional Services, Food & Drink, or Entertainment).
 * The amount the borrower wishes to borrow in GBP (between £10000 and £100000), for how long (number of days), and a reason for the loan (text description).
 * This information should be stored in the database via appropriate models, and accessible to an admin in the standard Django Admin tool.
 
-#### Notes
+On success, a summary page is shown - only accessible by the user who submitted the loan request.
 
-You are encouraged to use 3rd party libraries and the built-in framework tools when it makes sense (for example "django-registration-redux" or "django-allauth" to help handle registering a new user)
-While the final product should have an interface via a web browser, there is no need for styles or anything beyond functional HTML
+An account is automatically created using the email address as the username and the supplied password - recording using djangos user auth models
 
-#### Delivery
+#### Admin
 
-Fork this repository, make your additions, and then submit a pull request with your submission. If you haven't previously, please contact us with your CV at jobs@growthstreet.co.uk as well.
+The admin page is accessible at the usual /admin/
+username: admin
+password: admin
+
+#### Database
+
+An empty simple sqlite database has been set up and is shipped with this for testing.
