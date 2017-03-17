@@ -8,6 +8,7 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["forename", "surname", "email", "telephone_number"]
+        exclude = ["userauth"]
 
     def __init__(self, *args, **kwargs):
         """Override init to enable setting company to default None"""
